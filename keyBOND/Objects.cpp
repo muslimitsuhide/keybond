@@ -1,5 +1,8 @@
 #include "Objects.h"
+#include "dialog.h"
+
 #include <QGridLayout>
+
 
 Objects::Objects(QWidget *parent) : QWidget(parent) {
     QFile in = QString("1.txt");
@@ -22,23 +25,33 @@ Objects::Objects(QWidget *parent) : QWidget(parent) {
     connect(line, &QLineEdit::textEdited, this, &Objects::OnLine);
 }
 
+QTextStream out(stdout);
 QString str_from_file = "qwerty";
-int i = 0;
 int line_length = 0;
 int copy_length = 0;
+int mistakes = 0;
+bool done = false;
 
 void Objects::OnLine() {
     QString input = line->text();
-    std::cout << input.size() << std::endl;  // debug
 
-    if (line_length > input.length()) {
+    std::cout << "line_length = " << line_length << std::endl;
+    std::cout << "input.length() = " << input.length() << std::endl;
+    std::cout << "copy_length = " << copy_length << std::endl;
+
+    if (input.length() <= line_length) {
+        if (done && line_length == copy_length){
+            done = false;
+        }
+        if (mistakes > 0) {
+            --mistakes;
+            std::cout << "--mistakes" << std::endl;
+        }
         if (line_length > 0) {
             --line_length;
         }
-        std::cout << "---Deleted charachter---" << std::endl;  // debug
-        if (i > 0) {
-            --i;
-        }
+        std::cout << "---Deleted charachter---" << std::endl;
+
         if (copy_length > line_length) {
             if (copy_length == 1) {
                 copy->setText("");
@@ -51,32 +64,33 @@ void Objects::OnLine() {
         }
         std::cout << "line_length = " << line_length << std::endl;  // debug
         std::cout << "copy_length = " << copy_length << std::endl;  // debug
+    } else if (!done) {
+        if (mistakes > 0) {
+            ++mistakes;
+            ++line_length;
+        } else {
+            if (input[line_length] == str_from_file[line_length]) {
+                error->setText("");
+                copy->setText(copy->text() + input[line_length]);
+                ++line_length;
+                ++copy_length;
+            } else {
+                ++mistakes;
+                ++line_length;
+                QString error_message = "Введён неверный символ на позиции %1";
+                error->setText(error_message.arg(line_length));
+            }
+        }
     }
-    else if (input[i] == str_from_file[i]) {
-        ++line_length;
-        error->setText("");
-        copy->setText(copy->text() + input[i]);
-        ++copy_length;
-        ++i;
-    } else {
-        ++line_length;
-        QString error_message = "Введён неверный символ на позиции %1";
-        error->setText(error_message.arg(i + 1));
-        ++i;
+    std::cout << "mistakes = " << mistakes << std::endl;  // debug
+
+
+
+    if (mistakes == 0 && line_length == str_from_file.length()){
+        error->setText("Уровень пройден");
+        done = true;
     }
 
 
 
-
-
-    /*
-    if (input[input.size() - 1] == str[i]){
-        str_copy += str[i];
-        copy->setText(str_copy);
-        ++i;
-    } else {
-        input.replace(1, input.size() - 1, "");
-        line->text() = input;
-        copy->setText(input);
-    }*/
 }
