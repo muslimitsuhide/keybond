@@ -1,11 +1,13 @@
-#include "mainwindow.h"
+#include "line.h"
 
-#include <QApplication>
+int main(int argc, char *argv[]) {
+    QApplication app(argc, argv);
 
-int main(int argc, char *argv[])
-{
-    QApplication a(argc, argv);
-    MainWindow w;
-    w.show();
-    return a.exec();
+    Objects window;
+
+    window.resize(300, 190);
+    window.setWindowTitle("Text input");
+    window.show();
+
+    return app.exec();
 }
