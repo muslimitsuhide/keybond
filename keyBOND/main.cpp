@@ -1,4 +1,4 @@
-#include "line.h"
+#include "Objects.h"
 
 int main(int argc, char *argv[]) {
     QApplication app(argc, argv);

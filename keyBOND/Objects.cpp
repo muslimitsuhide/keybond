@@ -1,4 +1,4 @@
-#include "line.h"
+#include "Objects.h"
 #include <QGridLayout>
 
 Objects::Objects(QWidget *parent) : QWidget(parent) {
@@ -24,25 +24,42 @@ Objects::Objects(QWidget *parent) : QWidget(parent) {
 
 QString str_from_file = "qwerty";
 int i = 0;
-int cur_length = 0;
+int line_length = 0;
+int copy_length = 0;
 
 void Objects::OnLine() {
     QString input = line->text();
-    std::cout << input.size() << std::endl;  // Debug
+    std::cout << input.size() << std::endl;  // debug
 
-    if (cur_length > input.length()) {
-        std::cout << "Deleted charachter" << std::endl;  // Debug
+    if (line_length > input.length()) {
+        if (line_length > 0) {
+            --line_length;
+        }
+        std::cout << "---Deleted charachter---" << std::endl;  // debug
         if (i > 0) {
             --i;
         }
+        if (copy_length > line_length) {
+            if (copy_length == 1) {
+                copy->setText("");
+            } else {
+                QString new_copy = copy->text();
+                new_copy.remove(copy_length - 1, 1);
+                copy->setText(new_copy);
+            }
+            --copy_length;
+        }
+        std::cout << "line_length = " << line_length << std::endl;  // debug
+        std::cout << "copy_length = " << copy_length << std::endl;  // debug
     }
     else if (input[i] == str_from_file[i]) {
-        ++cur_length;
+        ++line_length;
         error->setText("");
         copy->setText(copy->text() + input[i]);
+        ++copy_length;
         ++i;
     } else {
-        ++cur_length;
+        ++line_length;
         QString error_message = "Введён неверный символ на позиции %1";
         error->setText(error_message.arg(i + 1));
         ++i;
