@@ -10,14 +10,17 @@ CONFIG += c++11
 
 SOURCES += \
     Objects.cpp \
+    hellowindow.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
     Objects.h \
+    hellowindow.h \
     mainwindow.h
 
 FORMS += \
+    hellowindow.ui \
     mainwindow.ui
 
 # Default rules for deployment.

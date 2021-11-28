@@ -1,4 +1,5 @@
 #include "Objects.h"
+#include "hellowindow.h"
 
 int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
