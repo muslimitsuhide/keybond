@@ -6,7 +6,7 @@ int main(int argc, char *argv[]) {
     Objects window;
 
     window.resize(300, 190);
-    window.setWindowTitle("Text input");
+    window.setWindowTitle("KeyBOND");
     window.show();
 
     return app.exec();
