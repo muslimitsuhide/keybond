@@ -2,8 +2,9 @@
 #include "dialog.h"
 
 #include <QGridLayout>
+#include <ctime>
 
-QString str_from_file = "Эта строка предназначена для теста";
+QString str_from_file = "Я надеюсь, что мы не будем выглядеть очень плохо на синкапе";
 
 Objects::Objects(QWidget *parent) : QWidget(parent) {
     /*QFile in = QString("1.txt");
@@ -29,11 +30,19 @@ Objects::Objects(QWidget *parent) : QWidget(parent) {
 
 int last_length = 0;
 int mistakes = 0;
+bool first_char = true;
+int begin;
+int end;
 
 enum {CORRECT, ERROR, FINISH} state = CORRECT;
 
 void Objects::OnLine() {
     QString input = line->text();
+
+    if (first_char) {
+        begin = clock();
+        first_char = false;
+    }
 
     if (state == CORRECT) {
         if (input.length() > last_length) {
@@ -52,7 +61,11 @@ void Objects::OnLine() {
                 if (input[input.length() - 1] == str_from_file[input.length() - 1]) {
                     state = FINISH;
                     copy->setText(copy->text() + input[input.length() - 1]);
-                    error->setText("Уровень пройден");
+                    end = clock();
+                    float time = ((float)(end - begin) / CLOCKS_PER_SEC);
+                    float speed = (str_from_file.length() / time) * 60;
+                    QString level_up = "Уровень пройден\nВремя: %1 секунд\nСкорость: %2 символов в минуту";
+                    error->setText(level_up.arg(time).arg(speed));
                 } else {
                     mistakes = 1;
                     state = ERROR;
