@@ -3,13 +3,14 @@
 
 #include <QGridLayout>
 
+QString str_from_file = "Эта строка предназначена для теста";
 
 Objects::Objects(QWidget *parent) : QWidget(parent) {
-    QFile in = QString("1.txt");
+    /*QFile in = QString("1.txt");
     if (!in.open(QIODevice::ReadOnly)) {
         std::cout << "File didn't opened" << std::endl;
-    }
-    label = new QLabel(in.readLine(), this);
+    }*/
+    label = new QLabel(str_from_file, this);
     line = new QLineEdit("", this);
     copy = new QLabel("", this);
     error = new QLabel("", this);
@@ -25,14 +26,82 @@ Objects::Objects(QWidget *parent) : QWidget(parent) {
     connect(line, &QLineEdit::textEdited, this, &Objects::OnLine);
 }
 
-QTextStream out(stdout);
-QString str_from_file = "qwerty";
-int line_length = 0;
-int copy_length = 0;
+
+int last_length = 0;
 int mistakes = 0;
-bool done = false;
+
+enum {CORRECT, ERROR, FINISH} state = CORRECT;
 
 void Objects::OnLine() {
+    QString input = line->text();
+
+    if (state == CORRECT) {
+        if (input.length() > last_length) {
+            if (input.length() < str_from_file.length()) {
+                if (input[input.length() - 1] == str_from_file[input.length() - 1]) {
+                    state = CORRECT;
+                    copy->setText(copy->text() + input[input.length() - 1]);
+                    error->setText("");
+                } else {
+                    mistakes = 1;
+                    state = ERROR;
+                    QString error_message = "Введён неверный символ на позиции %1";
+                    error->setText(error_message.arg(input.length()));
+                }
+            } else if (input.length() == str_from_file.length()) {
+                if (input[input.length() - 1] == str_from_file[input.length() - 1]) {
+                    state = FINISH;
+                    copy->setText(copy->text() + input[input.length() - 1]);
+                    error->setText("Уровень пройден");
+                } else {
+                    mistakes = 1;
+                    state = ERROR;
+                    QString error_message = "Введён неверный символ на позиции %1";
+                    error->setText(error_message.arg(input.length()));
+                }
+            }
+        } else {
+            state = CORRECT;
+            QString copy_text = copy->text();
+            copy_text.remove(input.length(), 1);
+            copy->setText(copy_text);
+        }
+    } else if (state == ERROR) {
+        if (mistakes == 1) {
+            if (input.length() > last_length) {
+                ++mistakes;
+            } else {
+                mistakes = 0;
+                state = CORRECT;
+                error->setText("");
+            }
+        } else {
+            if (input.length() > last_length) {
+                ++mistakes;
+            } else {
+                --mistakes;
+            }
+        }
+    } else if (state == FINISH) {
+        if (input.length() >= str_from_file.length()) {
+            state = FINISH;
+        } else {
+            state = CORRECT;
+            QString copy_text = copy->text();
+            copy_text.remove(input.length(), 1);
+            copy->setText(copy_text);
+            error->setText("");
+        }
+    }
+
+    last_length = input.length(); // Подумать, куда лучше поставить
+
+
+
+
+
+    /*
+
     QString input = line->text();
 
     std::cout << "line_length = " << line_length << std::endl;
@@ -89,7 +158,7 @@ void Objects::OnLine() {
     if (mistakes == 0 && line_length == str_from_file.length()){
         error->setText("Уровень пройден");
         done = true;
-    }
+    }*/
 
 
 
