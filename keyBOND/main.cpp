@@ -1,14 +1,15 @@
 #include "Objects.h"
-#include "hellowindow.h"
+#include "auth.h"
 
 int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
 
+    auth window1;
     Objects window;
 
-    window.resize(300, 190);
-    window.setWindowTitle("Text input");
     window.show();
+    window.close();
+    window1.show();
 
     return app.exec();
 }
