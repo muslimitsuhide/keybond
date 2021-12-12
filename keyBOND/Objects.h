@@ -1,4 +1,4 @@
-#pragma once
+*#pragma once
 
 #include <iostream>
 
@@ -19,9 +19,10 @@ private slots:
     void OnLine();
 
 private:
-    QLabel* label;
-    QLineEdit* line;
-    QLabel* copy;
-    QLabel* error;
+//    QLabel* label;
+//    QLineEdit* line;
+//    QLabel* copy;
+//    QLabel* error;
 
 };
+*/

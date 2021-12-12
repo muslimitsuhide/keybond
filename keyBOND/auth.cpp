@@ -22,6 +22,7 @@ void auth::on_pushButton_clicked()
 
     if (name == "Test" && password == "test") {
         QMessageBox::information(this, "", "Авторизация пройдена успешно.");
+        hide();
         window = new MainWindow(this);
         window->show();
     } else {
@@ -37,6 +38,7 @@ void auth::on_guest_clicked()
     window = new MainWindow(this);
     window->show();
     QMessageBox::information(this, "", "Внимание! В гостевом режиме статистика скорости вестись не будет.");
+    hide();
 }
 
 
