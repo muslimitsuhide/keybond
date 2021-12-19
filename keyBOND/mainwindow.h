@@ -3,6 +3,17 @@
 
 #include <QMainWindow>
 
+#include <iostream>
+
+#include <QWidget>
+#include <QApplication>
+#include <QPushButton>
+#include <QLabel>
+#include <QLineEdit>
+#include <QFile>
+
+#include <QMessageBox>
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -13,7 +24,12 @@ class MainWindow : public QMainWindow
 
 public:
     MainWindow(QWidget *parent = nullptr);
+    void setNextLevel();
     ~MainWindow();
+
+private slots:
+
+    void on_line_textEdited(const QString &arg1);
 
 private:
     Ui::MainWindow *ui;
