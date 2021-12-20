@@ -2,27 +2,10 @@
 #include "ui_mainwindow.h"
 
 #include <iostream>
-#include <string>
 
-QString str_from_file = "Привет, мир! Я КиБонд!";
+QString str_from_file = "Hello, world";
 int cur_level = 0;
-enum {FIRST_CHAR, LAST_CHAR} process_status = FIRST_CHAR;
-
-void MainWindow::setNextLevel() {
-    QString level_name = "%1.txt";
-    QFile in(level_name.arg(++cur_level));
-    std::cout << "cur_level = " << cur_level << std::endl;
-    std::cout << 1 << std::endl;
-    if (!in.open(QIODevice::ReadOnly)) {
-        std::cout << 2 << std::endl;
-        std::cout << "File didn't opened!" << std::endl;
-    } else {
-        process_status = FIRST_CHAR;
-        str_from_file = in.readLine();
-        std::cout << str_from_file.toStdString() << std::endl;
-        ui->label->setText(str_from_file);
-    }
-}
+enum {FIRST_CHAR, NOT_FIRST_CHAR} process_status = FIRST_CHAR;
 
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
@@ -32,12 +15,25 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     ui->label->setText(str_from_file);
     ui->line->setText("");
     ui->line->setStyleSheet("font: 20pt; color: rgb(0, 255, 0);");
-    ui->error->setText("");
 }
 
-MainWindow::~MainWindow()
-{
+MainWindow::~MainWindow() {
     delete ui;
+}
+
+
+
+void MainWindow::setNextLevel() {
+    process_status = FIRST_CHAR;
+    QString level_name = "%1.txt";
+    QFile in(level_name.arg(++cur_level));
+    if (!in.open(QIODevice::ReadOnly)) {
+        //std::cout << "File didn't opened!" << std::endl;
+    } else {
+        str_from_file = in.readLine();
+        //std::cout << str_from_file.toStdString() << std::endl;
+        ui->label->setText(str_from_file);
+    }
 }
 
 
@@ -45,14 +41,12 @@ MainWindow::~MainWindow()
 
 int last_length = 0;
 int mistakes = 0;
-bool first_char = true;
 int begin;
 int end;
+time_t begin_time = 0;
 
 
 enum {CORRECT, ERROR, FINISH} state = CORRECT;
-
-
 
 
 void MainWindow::on_line_textEdited(const QString &arg1) {
@@ -60,7 +54,7 @@ void MainWindow::on_line_textEdited(const QString &arg1) {
 
     if (process_status == FIRST_CHAR) {
         begin = clock();
-        process_status = LAST_CHAR;
+        process_status = NOT_FIRST_CHAR;
     }
 
     if (state == CORRECT) {
@@ -68,13 +62,10 @@ void MainWindow::on_line_textEdited(const QString &arg1) {
             if (input.length() < str_from_file.length()) {
                 if (input[input.length() - 1] == str_from_file[input.length() - 1]) {
                     state = CORRECT;
-                    ui->error->setText("");
                     ui->line->setStyleSheet("font: 20pt; color: rgb(0, 255, 0);");
                 } else {
                     mistakes = 1;
                     state = ERROR;
-                    QString error_message = "Введён неверный символ на позиции %1";
-                    ui->error->setText(error_message.arg(input.length()));
                     ui->line->setStyleSheet("font: 20pt; color: rgb(255, 0, 0);");
                 }
             } else if (input.length() == str_from_file.length()) {
@@ -84,7 +75,6 @@ void MainWindow::on_line_textEdited(const QString &arg1) {
                     float time = ((float)(end - begin) / CLOCKS_PER_SEC);
                     float speed = (str_from_file.length() / time) * 60;
                     QString level_up = "Уровень пройден\nВремя: %1 секунд\nСкорость: %2 символов в минуту";
-                    //ui->error->setText(level_up.arg(time).arg(speed));
                     ui->line->setStyleSheet("font: 20pt; color: rgb(0, 255, 0);");
                     QMessageBox::information(this, "Ура!", level_up.arg(time).arg(speed), QMessageBox::Ok);
                     setNextLevel();
@@ -93,14 +83,12 @@ void MainWindow::on_line_textEdited(const QString &arg1) {
                 } else {
                     mistakes = 1;
                     state = ERROR;
-                    QString error_message = "Введён неверный символ на позиции %1";
-                    ui->error->setText(error_message.arg(input.length()));
                     ui->line->setStyleSheet("font: 20pt; color: rgb(255, 0, 0);");
                 }
             }
         } else {
             state = CORRECT;
-            ui->line->setStyleSheet("font: 20pt; color: rgb(0, 255, 0);;");
+            ui->line->setStyleSheet("font: 20pt; color: rgb(0, 255, 0);");
         }
     } else if (state == ERROR) {
         if (mistakes == 1) {
@@ -109,7 +97,6 @@ void MainWindow::on_line_textEdited(const QString &arg1) {
             } else {
                 mistakes = 0;
                 state = CORRECT;
-                ui->error->setText("");
                 ui->line->setStyleSheet("font: 20pt; color: rgb(0, 255, 0);");
             }
         } else {
@@ -125,7 +112,6 @@ void MainWindow::on_line_textEdited(const QString &arg1) {
             ui->line->setStyleSheet("font: 20pt; color: rgb(0, 255, 0);");
         } else {
             state = CORRECT;
-            ui->error->setText("");
             ui->line->setStyleSheet("font: 20pt; color: rgb(0, 255, 0);");
         }
     }

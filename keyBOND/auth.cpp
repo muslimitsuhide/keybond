@@ -36,6 +36,7 @@ void auth::on_pushButton_clicked()
 void auth::on_guest_clicked()
 {
     window = new MainWindow(this);
+    window->setWindowTitle("KeyBond");
     window->show();
     QMessageBox::information(this, "", "Внимание! В гостевом режиме статистика скорости вестись не будет.");
     hide();

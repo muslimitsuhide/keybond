@@ -4,6 +4,7 @@
 #include <QMainWindow>
 
 #include <iostream>
+#include <ctime>
 
 #include <QWidget>
 #include <QApplication>
@@ -25,6 +26,8 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     void setNextLevel();
+    void show_time() { std::cout << 0 << std::endl; }
+    void show_speed() { std::cout << 0 << std::endl; }
     ~MainWindow();
 
 private slots:
