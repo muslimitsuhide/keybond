@@ -11,6 +11,7 @@
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QMainWindow>
@@ -26,7 +27,10 @@ public:
     QWidget *centralwidget;
     QLabel *label;
     QLineEdit *line;
-    QLabel *error;
+    QWidget *horizontalLayoutWidget;
+    QHBoxLayout *horizontalLayout;
+    QLabel *time;
+    QLabel *speed;
     QMenuBar *menubar;
     QStatusBar *statusbar;
 
@@ -34,23 +38,41 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
-        MainWindow->resize(811, 607);
+        MainWindow->resize(811, 556);
+        MainWindow->setStyleSheet(QString::fromUtf8("background-color:rgb(105, 109, 122)"));
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
         label = new QLabel(centralwidget);
         label->setObjectName(QString::fromUtf8("label"));
-        label->setGeometry(QRect(30, 40, 771, 81));
+        label->setGeometry(QRect(30, 200, 771, 81));
+        label->setStyleSheet(QString::fromUtf8("font: 20pt \"MS Shell Dlg 2\";"));
         line = new QLineEdit(centralwidget);
         line->setObjectName(QString::fromUtf8("line"));
-        line->setGeometry(QRect(30, 180, 771, 151));
-        line->setStyleSheet(QString::fromUtf8("font: 20pt \"MS Shell Dlg 2\";"));
-        error = new QLabel(centralwidget);
-        error->setObjectName(QString::fromUtf8("error"));
-        error->setGeometry(QRect(20, 370, 771, 51));
+        line->setGeometry(QRect(30, 200, 771, 81));
+        line->setStyleSheet(QString::fromUtf8("font: 20pt \"MS Shell Dlg 2\";\n"
+"background-color: rgb(168, 168, 168);"));
+        horizontalLayoutWidget = new QWidget(centralwidget);
+        horizontalLayoutWidget->setObjectName(QString::fromUtf8("horizontalLayoutWidget"));
+        horizontalLayoutWidget->setGeometry(QRect(30, 360, 771, 91));
+        horizontalLayout = new QHBoxLayout(horizontalLayoutWidget);
+        horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
+        horizontalLayout->setContentsMargins(0, 0, 0, 0);
+        time = new QLabel(horizontalLayoutWidget);
+        time->setObjectName(QString::fromUtf8("time"));
+        time->setStyleSheet(QString::fromUtf8("font: 14pt \"MS Shell Dlg 2\";"));
+
+        horizontalLayout->addWidget(time);
+
+        speed = new QLabel(horizontalLayoutWidget);
+        speed->setObjectName(QString::fromUtf8("speed"));
+        speed->setStyleSheet(QString::fromUtf8("font: 14pt \"MS Shell Dlg 2\";"));
+
+        horizontalLayout->addWidget(speed);
+
         MainWindow->setCentralWidget(centralwidget);
-        error->raise();
-        line->raise();
+        horizontalLayoutWidget->raise();
         label->raise();
+        line->raise();
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QString::fromUtf8("menubar"));
         menubar->setGeometry(QRect(0, 0, 811, 26));
@@ -67,14 +89,15 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "MainWindow", nullptr));
-        label->setText(QCoreApplication::translate("MainWindow", "TextLabel", nullptr));
+        label->setText(QCoreApplication::translate("MainWindow", "\320\241\321\202\321\200\320\276\320\272\320\260 \320\270\320\267 \321\204\320\260\320\271\320\273\320\260", nullptr));
 #if QT_CONFIG(tooltip)
         line->setToolTip(QString());
 #endif // QT_CONFIG(tooltip)
 #if QT_CONFIG(whatsthis)
         line->setWhatsThis(QString());
 #endif // QT_CONFIG(whatsthis)
-        error->setText(QCoreApplication::translate("MainWindow", "TextLabel", nullptr));
+        time->setText(QString());
+        speed->setText(QString());
     } // retranslateUi
 
 };

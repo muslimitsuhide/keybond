@@ -625,7 +625,10 @@ debug/auth.o: ../KeyBOND/auth.cpp ../KeyBOND/auth.h \
 		../../Qt/6.1.3/mingw81_64/include/QtWidgets/QMessageBox \
 		../../Qt/6.1.3/mingw81_64/include/QtWidgets/qmessagebox.h \
 		../../Qt/6.1.3/mingw81_64/include/QtWidgets/qdialog.h \
-		ui_auth.h
+		ui_auth.h \
+		../../Qt/6.1.3/mingw81_64/include/QtCore/QVariant \
+		../../Qt/6.1.3/mingw81_64/include/QtWidgets/QGroupBox \
+		../../Qt/6.1.3/mingw81_64/include/QtWidgets/qgroupbox.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\auth.o ..\KeyBOND\auth.cpp
 
 debug/main.o: ../KeyBOND/main.cpp ../KeyBOND/auth.h \
@@ -947,7 +950,14 @@ debug/mainwindow.o: ../KeyBOND/mainwindow.cpp ../KeyBOND/mainwindow.h \
 		../../Qt/6.1.3/mingw81_64/include/QtWidgets/QMessageBox \
 		../../Qt/6.1.3/mingw81_64/include/QtWidgets/qmessagebox.h \
 		../../Qt/6.1.3/mingw81_64/include/QtWidgets/qdialog.h \
-		ui_mainwindow.h
+		ui_mainwindow.h \
+		../../Qt/6.1.3/mingw81_64/include/QtCore/QVariant \
+		../../Qt/6.1.3/mingw81_64/include/QtWidgets/QMenuBar \
+		../../Qt/6.1.3/mingw81_64/include/QtWidgets/qmenubar.h \
+		../../Qt/6.1.3/mingw81_64/include/QtWidgets/qmenu.h \
+		../../Qt/6.1.3/mingw81_64/include/QtGui/qaction.h \
+		../../Qt/6.1.3/mingw81_64/include/QtWidgets/QStatusBar \
+		../../Qt/6.1.3/mingw81_64/include/QtWidgets/qstatusbar.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\mainwindow.o ..\KeyBOND\mainwindow.cpp
 
 debug/moc_auth.o: debug/moc_auth.cpp 
