@@ -10,8 +10,11 @@
     <height>556</height>
    </rect>
   </property>
+  <property name="tabletTracking">
+   <bool>false</bool>
+  </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>keybOND</string>
   </property>
   <property name="styleSheet">
    <string notr="true">background-color:rgb(105, 109, 122)</string>
@@ -51,6 +54,12 @@
     <property name="styleSheet">
      <string notr="true">font: 20pt &quot;MS Shell Dlg 2&quot;;
 background-color: rgb(168, 168, 168);</string>
+    </property>
+    <property name="frame">
+     <bool>true</bool>
+    </property>
+    <property name="dragEnabled">
+     <bool>false</bool>
     </property>
    </widget>
    <widget class="QWidget" name="horizontalLayoutWidget">
@@ -95,7 +104,7 @@ background-color: rgb(168, 168, 168);</string>
      <x>0</x>
      <y>0</y>
      <width>811</width>
-     <height>26</height>
+     <height>24</height>
     </rect>
    </property>
   </widget>
